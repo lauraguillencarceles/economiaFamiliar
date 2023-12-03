@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://localhost:3306/ecoFam</property>
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="connection.username">laura</property>
+    <property name="connection.password">123456</property>
+    <mapping class="es.ecofam.economiafamiliar.modelo.pojos.Anotacion"/>
+    <mapping class="es.ecofam.economiafamiliar.modelo.pojos.Categoria"/>
+    <mapping class="es.ecofam.economiafamiliar.modelo.pojos.PlanEconomico"/>
+    <mapping class="es.ecofam.economiafamiliar.modelo.pojos.Usuario"/>
+    <mapping class="es.ecofam.economiafamiliar.modelo.pojos.UsuarioPlan"/>
+    <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>
