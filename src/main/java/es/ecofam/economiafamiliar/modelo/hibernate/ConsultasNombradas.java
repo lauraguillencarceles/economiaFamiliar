@@ -1,11 +1,13 @@
 package es.ecofam.economiafamiliar.modelo.hibernate;
 
 import es.ecofam.economiafamiliar.modelo.pojos.Anotacion;
+import es.ecofam.economiafamiliar.modelo.pojos.PlanEconomico;
 import jakarta.persistence.Tuple;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConsultasNombradas {
@@ -122,4 +124,17 @@ public class ConsultasNombradas {
         query.setParameter("year", year);
         List lista = query.list();
         return lista;    }
+
+    public static List<PlanEconomico> getPlanesByUser(String usuario) {
+        Query query = session.createNamedQuery("UsuarioPlan.planesByUser");
+        query.setParameter("userName", usuario);
+        List<PlanEconomico> lista  = (List<PlanEconomico>) query.list();
+
+        query = session.createNamedQuery("UsuarioPlan.planesByCreador");
+        query.setParameter("userName", usuario);
+        List<PlanEconomico> lista2  = (List<PlanEconomico>) query.list();
+
+        lista.addAll(lista2);
+        return lista;
+    }
 }

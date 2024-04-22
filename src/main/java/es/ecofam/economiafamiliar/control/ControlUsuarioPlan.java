@@ -48,4 +48,20 @@ public class ControlUsuarioPlan {
             return ResponseEntity.notFound().build();
         }
     }
+    @DeleteMapping("/{user}/{plan}")
+    public ResponseEntity<?> borrarUsuarioPlan(@PathVariable(value="user") int user, @PathVariable(value="plan") int plan) {
+        Optional<UsuarioPlan> usuarioPlan = usuarioPlanDAO.findUsuarioPlansByUsuarioIdAndPlanEconomicoId(user, plan);
+        if (usuarioPlan.isPresent()) {
+            usuarioPlanDAO.deleteById(usuarioPlan.get().getId());
+            return ResponseEntity.ok().body("Borrado");
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @DeleteMapping("")
+    public ResponseEntity<?> borrarUsuarioPlan(@RequestBody UsuarioPlan usuarioPlan) {
+        usuarioPlanDAO.delete(usuarioPlan);
+        return ResponseEntity.ok().body("Borrado");
+    }
 }

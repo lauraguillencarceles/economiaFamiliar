@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.Objects;
-
+//"select distinct p from PlanEconomico p left join UsuarioPlan up on up.planEconomico.id = p.id where p.creador.username = :userName or up.usuario.username = :userName"
+@NamedQueries({
+        @NamedQuery(name = "UsuarioPlan.planesByUser", query = "select p from UsuarioPlan up, PlanEconomico p where up.planEconomico.id = p.id and up.usuario.username = :userName"),
+        @NamedQuery(name = "UsuarioPlan.planesByCreador", query = "select p from PlanEconomico p where p.creador.username = :userName")
+})
 @Entity
 @Table(name="usuario_plan")
 public class UsuarioPlan {
@@ -62,7 +66,7 @@ public class UsuarioPlan {
     public String toString() {
         return "UsuarioPlan{" +
                 "id=" + id +
-                ", usuario=" + usuario.getNick() +
+                ", usuario=" + usuario.getUsername() +
                 ", planEconomico=" + planEconomico.getNombre() +
                 '}';
     }

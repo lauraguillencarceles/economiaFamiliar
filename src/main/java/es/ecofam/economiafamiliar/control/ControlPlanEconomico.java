@@ -1,11 +1,14 @@
 package es.ecofam.economiafamiliar.control;
 
 import es.ecofam.economiafamiliar.modelo.dao.IPlanEconomicoDAO;
+import es.ecofam.economiafamiliar.modelo.dao.IUsuarioDAO;
+import es.ecofam.economiafamiliar.modelo.hibernate.ConsultasNombradas;
 import es.ecofam.economiafamiliar.modelo.pojos.Anotacion;
 import es.ecofam.economiafamiliar.modelo.pojos.PlanEconomico;
 import es.ecofam.economiafamiliar.modelo.pojos.Usuario;
 import es.ecofam.economiafamiliar.modelo.pojos.UsuarioPlan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,8 @@ public class ControlPlanEconomico {
     @Autowired
     IPlanEconomicoDAO planEconomicoDAO;
 
+    @Autowired
+    IUsuarioDAO usuarioDAO;
     @GetMapping
     public List<PlanEconomico> buscarPlanEconomicos() {
         return (List<PlanEconomico>) planEconomicoDAO.findAll();
@@ -53,10 +58,14 @@ public class ControlPlanEconomico {
         }
         return usuarios;
     }
-
+    @GetMapping("planes/{user}")
+    public List<PlanEconomico> buscarPlanesPorUsuario(@PathVariable(value="user") String user) {
+        return (List<PlanEconomico>) ConsultasNombradas.getPlanesByUser(user);
+    }
 
     @PostMapping
     public PlanEconomico guardarPlanEconomico(@Validated @RequestBody PlanEconomico planEconomico) {
+
         return planEconomicoDAO.save(planEconomico);
     }
 
@@ -64,11 +73,15 @@ public class ControlPlanEconomico {
     public ResponseEntity<?> borrarPlanEconomico(@PathVariable(value="id") int id) {
         Optional<PlanEconomico> planEconomico = planEconomicoDAO.findById(id);
         if (planEconomico.isPresent()) {
-            planEconomicoDAO.deleteById(id);
-            return ResponseEntity.ok().body("Borrado");
+            try {
+                planEconomicoDAO.deleteById(id);
+                return ResponseEntity.ok().body("Borrado");
+            } catch (DataIntegrityViolationException e) {
+                return ResponseEntity.noContent().build();
+            }
         }
         else {
             return ResponseEntity.notFound().build();
         }
-    }
+    }//borrarPlanEconomico
 }

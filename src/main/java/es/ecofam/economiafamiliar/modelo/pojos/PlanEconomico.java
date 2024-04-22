@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+
 @Entity
 @Table(name = "plan_economico")
 public class PlanEconomico {
@@ -28,6 +29,12 @@ public class PlanEconomico {
     @JsonIgnore
     private Collection<UsuarioPlan> usuarios;
 
+    public PlanEconomico() {
+
+    }
+    public PlanEconomico(int id) {
+        this.id = id;
+    }
     public int getId() {
         return id;
     }
@@ -87,7 +94,7 @@ public class PlanEconomico {
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 //", anotaciones=" + anotaciones +
-                ", creador=" + creador.getNick() +
+                ", creador=" + creador.getUsername() +
                 ", usuarios=" + usuarios +
                 '}';
     }
