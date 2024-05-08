@@ -64,7 +64,8 @@ public class ConsultasNombradas {
         query.setParameter("planId", plan);
         query.setParameter("mes", mes);
         query.setParameter("year", year);
-        return query.getSingleResult();
+        Object resul = query.getSingleResult();
+        return resul;
     }
     private static Object getSumaByDay(String consulta, int plan, int dia, int mes, int year) {
         Query query = session.createNamedQuery(consulta+".ByDay", Anotacion.class);
