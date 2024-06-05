@@ -6,6 +6,7 @@
   <session-factory>
     <property name="connection.url">jdbc:mysql://localhost:3306/ecoFam</property>
     <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="connection.username">laura</property>
     <property name="connection.password">123456</property>
 
